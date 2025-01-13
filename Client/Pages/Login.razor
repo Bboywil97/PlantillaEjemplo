@@ -1,0 +1,53 @@
+﻿@page "/Login"
+<Encabezado></Encabezado>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Iniciar Sesión</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo</label>
+                            <input type="email" id="email" class="form-control" @bind="Email" placeholder="Introduce tu correo" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" class="form-control" @bind="Password" placeholder="Introduce tu contraseña" />
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" @onclick="LoginUser">Iniciar Sesión</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-link" @onclick="NavigateToRegister">¿No tienes cuenta? Regístrate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Email { get; set; } = string.Empty;
+    private string Password { get; set; } = string.Empty;
+
+    private void LoginUser()
+    {
+        // Lógica para iniciar sesión
+        Console.WriteLine($"Intento de inicio de sesión con {Email}");
+    }
+
+    private void NavigateToRegister()
+    {
+        NavigationManager.NavigateTo("/Registro");
+    }
+
+    [Inject] private NavigationManager NavigationManager { get; set; }
+}

@@ -1,0 +1,211 @@
+﻿@page "/Prueba"
+
+<div class="container-fluid">
+    <Encabezado></Encabezado>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <!-- Distribución -->
+    <div class="row mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Total de productos</h6>
+                    <h2 class="text-primary fw-bold">201</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Total de Responsables</h6>
+                    <h2 class="text-primary fw-bold">25</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Total</h6>
+                    <h2 class="text-primary fw-bold">10</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="card-title">Activos e inactivos</h6>
+                    <canvas id="activosInactivosChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="card-title">Semana</h6>
+                    <canvas id="semanaChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="card-title">Mes</h6>
+                    <canvas id="mesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="card-title">Responsables</h6>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Responsable</th>
+                                    <th>Ubicacion</th>
+                                    <th>Id</th>
+                                    <th>Fecha Adquisicion</th>
+                                    <th>Estatus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var viaje in GetViajes())
+                                {
+                                    <tr>
+                                        <td>@viaje.Responsable</td>
+                                        <td>@viaje.Ubicacion</td>
+                                        <td>@viaje.Id</td>
+                                        <td>@viaje.Fecha</td>
+                                        <td>
+                                            @if (viaje.Estatus == "Activo")
+                                            {
+                                                <span class="badge bg-success">@viaje.Estatus</span>
+                                            }
+                                            else if (viaje.Estatus == "Perdido")
+                                            {
+                                                <span class="badge bg-primary">@viaje.Estatus</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">@viaje.Estatus</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatus del viaje -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow border-0">
+                <div class="card-body">
+                    <h6 class="card-title">Estatus </h6>
+                    <canvas id="estatusViajeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Datos para gráficos
+        const ctx1 = document.getElementById('activosInactivosChart').getContext('2d');
+        const ctx2 = document.getElementById('semanaChart').getContext('2d');
+        const ctx3 = document.getElementById('mesChart').getContext('2d');
+        const ctx4 = document.getElementById('estatusViajeChart').getContext('2d');
+
+        // Gráfico Activos/Inactivos
+        new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Activos', 'Inactivos'],
+                datasets: [{
+                    data: [201, 35],
+                    backgroundColor: ['#28a745', '#dc3545']
+                }]
+            }
+        });
+
+        // Gráfico de la Semana
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'],
+                datasets: [
+                    { label: 'Activos', data: [10, 20, 30, 40, 50, 60, 70], backgroundColor: '#28a745' },
+                    { label: 'Inactivos', data: [5, 10, 15, 20, 25, 30, 35], backgroundColor: '#dc3545' }
+                ]
+            }
+        });
+
+        // Gráfico del Mes
+        new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Viajes',
+                    data: [10, 15, 20, 25, 30, 50, 40, 45, 35, 30, 25, 20],
+                    borderColor: '#007bff',
+                    fill: true,
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)'
+                }]
+            }
+        });
+
+        // Gráfico Estatus del Viaje
+        new Chart(ctx4, {
+            type: 'doughnut',
+            data: {
+                labels: ['Activo', 'Perdido', 'Detenido'],
+                datasets: [{
+                    data: [201, 20, 16],
+                    backgroundColor: ['#28a745', '#007bff', '#dc3545']
+                }]
+            }
+        });
+    });
+</script>
+
+@code {
+    public class Viaje
+    {
+        public string Responsable { get; set; } = string.Empty;
+        public string Ubicacion { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+        public string Fecha { get; set; } = string.Empty;
+        public string Estatus { get; set; } = string.Empty;
+    }
+
+    private List<Viaje> GetViajes()
+    {
+        return new List<Viaje>
+        {
+            new Viaje { Responsable = "Mario Venegaz", Ubicacion = "Sinaloa ", Id = "6TRJ678", Fecha = "01 Ene 2024 - 15:30 pm", Estatus = "Activo" },
+            new Viaje { Responsable = "Luis Lopez", Ubicacion = "Durango ", Id = "5AYM091", Fecha = "01 Ene 2024 - 09:00 am", Estatus = "Perdido" },
+            new Viaje { Responsable = "Santiago Cruz", Ubicacion = "Tijuana ", Id = "9WHZ654", Fecha = "02 Ene 2024 - 12:45 pm", Estatus = "Activo" },
+            new Viaje { Responsable = "Gerardo Flores", Ubicacion = "Yucatán ", Id = "7PGK263", Fecha = "03 Ene 2024 - 07:00 am", Estatus = "Detenido" },
+        };
+    }
+}
+

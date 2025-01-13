@@ -1,0 +1,300 @@
+﻿@page "/"
+
+<Encabezado />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<!-- Campo de búsqueda y filtro -->
+<div class="row mb-3">
+    <div class="col-4">
+        <InputText @bind-Value="searchTerm" class="form-control" Placeholder="Buscar productos..."></InputText>
+    </div>
+    <div class="col-2">
+        <InputSelect @bind-Value="searchField" class="form-control">
+            <option value="Nombre">Nombre</option>
+            <option value="Marca">Marca</option>
+            <option value="Caracteristicas">Caracteristicas</option>
+            <option value="FechaCompra">Fecha Compra</option>
+            <option value="Estatus">Estatus</option>
+            <option value="FechaAdquisicion">Fecha Adquisicion</option>
+            <option value="PrecioAdquisicion">Precio Adquisicion</option>
+            <option value="Cantidad">Cantidad</option>
+        </InputSelect>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary" @onclick="Filtrar">Filtrar</button>
+    </div>
+</div>
+
+<EditForm Model="MiInventario" OnValidSubmit="Guardar">
+    <div class="row">
+        <div class="col-2">
+            <InputText @bind-Value="MiInventario.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiInventario.Marca" class="form-control" Placeholder="Marca"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiInventario.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+        </div>
+        <div class="col-2">
+            <InputDate @bind-Value="MiInventario.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiInventario.Estatus" class="form-control" Placeholder="Estatus"></InputText>
+        </div>
+        <div class="col-2">
+            <InputDate @bind-Value="MiInventario.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value="MiInventario.PrecioAdquisicion" class="form-control" Placeholder="Precio de adquisicion"></InputNumber>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value="MiInventario.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</EditForm>
+
+<br />
+<div class="row">
+    <div class="col-10">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Fecha Registro</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Caracteristicas</th>
+                    <th scope="col">Fecha Compra</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Fecha Adquisicion</th>
+                    <th scope="col">Precio Adquisicion</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in InventariosFiltrados)
+                {
+                    <tr>
+                        <td>@v.Id</td>
+                        <td>@v.FechaRegistro</td>
+                        <td>@v.Nombre</td>
+                        <td>@v.Marca</td>
+                        <td>@v.Caracteristicas</td>
+                        <td>@v.FechaCompra</td>
+                        <td>@v.Estatus</td>
+                        <td>@v.FechaAdquisicion</td>
+                        <td>@v.PrecioAdquisicion</td>
+                        <td>@v.Cantidad</td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @onclick="(() => Editar(v))">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalEliminar" @onclick="(() => LamadoAEliminar(v))">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-2">
+        <section id="services" class="services section-bg">
+            <div class="container">
+                <div class="row" style="display:flex;justify-content:center">
+                    <div class="col-lg-12">
+                        <div class="row" style="display:flex;justify-content:center">
+                            <div class="col-mf-6 d-flex align-items-sretch mt-4 mt-lg-0" style="display:flex;justify-content:center">
+                                <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="icon"><i class="bx bx-file"></i></div>
+                                    <h4><a href="">Resumen</a></h4>
+                                    <p>Productos totales: ???</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="MiInventarioEdit">
+                    <p>Fecha de registro</p>
+                    <InputDate @bind-Value="MiInventarioEdit.FechaRegistro" class="form-control" Placeholder="Fecha Registro"></InputDate>
+                    <p>Nombre</p>
+                    <InputText @bind-Value="MiInventarioEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+                    <p>Marca</p>
+                    <InputText @bind-Value="MiInventarioEdit.Marca" class="form-control" Placeholder="Marca"></InputText>
+                    <p>Caracteristicas</p>
+                    <InputText @bind-Value="MiInventarioEdit.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+                    <p>Fecha Compra</p>
+                    <InputDate @bind-Value="MiInventarioEdit.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
+                    <p>Estatus</p>
+                    <InputText @bind-Value="MiInventarioEdit.Estatus" class="form-control" Placeholder="Estatus"></InputText>
+                    <p>Fecha de adquisicion</p>
+                    <InputDate @bind-Value="MiInventarioEdit.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
+                    <p>Precio Adqusicion</p>
+                    <InputNumber @bind-Value="MiInventarioEdit.PrecioAdquisicion" class="form-control" Placeholder="Precio adquisiscion"></InputNumber>
+                    <p>Cantidad</p>
+                    <InputNumber @bind-Value="MiInventarioEdit.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios(MiInventarioEdit))">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de eliminar -->
+<div class="modal fade" id="exampleModalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Registro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Seguro que quieres eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="(() => Eliminar(MiInventarioEdit))">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public static List<Inventario> Inventarios = new List<Inventario>();
+    Inventario MiInventario = new Inventario();
+    Inventario MiInventarioEdit = new Inventario();
+    string searchTerm = string.Empty;
+    string searchField = "Nombre";
+
+    IEnumerable<Inventario> InventariosFiltrados => Inventarios.Where(i =>
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+            return true;
+
+        switch (searchField)
+        {
+            case "Nombre":
+                return i.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Marca":
+                return i.Marca.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Caracteristicas":
+                return i.Caracteristicas.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "FechaCompra":
+                if (DateTime.TryParse(searchTerm, out DateTime fechaCompra))
+                {
+                    return i.FechaCompra.HasValue && i.FechaCompra.Value.Date == fechaCompra.Date;
+                }
+                return false;
+            case "Estatus":
+                return i.Estatus.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "FechaAdquisicion":
+                if (DateTime.TryParse(searchTerm, out DateTime fechaAdquisicion))
+                {
+                    return i.FechaAdquisicion.HasValue && i.FechaAdquisicion.Value.Date == fechaAdquisicion.Date;
+                }
+                return false;
+            case "PrecioAdquisicion":
+                return i.PrecioAdquisicion.HasValue && i.PrecioAdquisicion.Value.ToString().Contains(searchTerm);
+            case "Cantidad":
+                return i.Cantidad.HasValue && i.Cantidad.Value.ToString().Contains(searchTerm);
+            default:
+                return false;
+        }
+    });
+
+    void Guardar()
+    {
+        Inventario nuevoInventario = new Inventario
+            {
+                Id = Inventarios.Count() + 1,
+                Nombre = MiInventario.Nombre,
+                Marca = MiInventario.Marca,
+                Caracteristicas = MiInventario.Caracteristicas,
+                FechaCompra = MiInventario.FechaCompra,
+                Estatus = MiInventario.Estatus,
+                FechaAdquisicion = MiInventario.FechaAdquisicion,
+                PrecioAdquisicion = MiInventario.PrecioAdquisicion,
+                Cantidad = MiInventario.Cantidad,
+                FechaRegistro = DateTime.Now
+            };
+
+        Inventarios.Add(nuevoInventario);
+        // Resetear campos
+        MiInventario = new Inventario();
+    }
+
+    void Editar(Inventario MiInventario)
+    {
+        MiInventarioEdit = new Inventario
+            {
+                Id = MiInventario.Id,
+                Nombre = MiInventario.Nombre,
+                Marca = MiInventario.Marca,
+                Caracteristicas = MiInventario.Caracteristicas,
+                FechaCompra = MiInventario.FechaCompra,
+                Estatus = MiInventario.Estatus,
+                FechaAdquisicion = MiInventario.FechaAdquisicion,
+                PrecioAdquisicion = MiInventario.PrecioAdquisicion,
+                Cantidad = MiInventario.Cantidad,
+                FechaRegistro = MiInventario.FechaRegistro
+            };
+    }
+
+    void GuardarCambios(Inventario MiInventario)
+    {
+        var inventarioAEliminar = Inventarios.FirstOrDefault(x => x.Id == MiInventario.Id);
+        if (inventarioAEliminar != null)
+        {
+            Inventarios.Remove(inventarioAEliminar);
+            Inventarios.Add(MiInventarioEdit);
+            Inventarios = Inventarios.OrderBy(x => x.Id).ToList();
+        }
+    }
+
+    void LamadoAEliminar(Inventario MiInventario)
+    {
+        MiInventarioEdit = MiInventario;
+    }
+
+    void Eliminar(Inventario MiInventario)
+    {
+        var inventarioAEliminar = Inventarios.FirstOrDefault(x => x.Id == MiInventario.Id);
+        if (inventarioAEliminar != null)
+        {
+            Inventarios.Remove(inventarioAEliminar);
+        }
+    }
+
+    void Filtrar()
+    {
+        // Este método se llama cuando se hace clic en el botón de filtrar
+    }
+}

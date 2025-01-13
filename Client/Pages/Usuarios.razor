@@ -1,0 +1,183 @@
+﻿@page "/Usuarios"
+<Encabezado></Encabezado>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+@inject UsuarioService UsuarioService
+
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Gestión de Usuarios</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Contraseña</th>
+                    <th>RFC</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in UsuarioService.Usuarios)
+                {
+                    <tr>
+                        <td>
+                            @if (usuario.IsEditing)
+                            {
+                                <input type="text" class="form-control" @bind="EditUser.Name" />
+                            }
+                            else
+                            {
+                                @usuario.Name
+                            }
+                        </td>
+                        <td>
+                            @if (usuario.IsEditing)
+                            {
+                                <input type="email" class="form-control" @bind="EditUser.Email" />
+                            }
+                            else
+                            {
+                                @usuario.Email
+                            }
+                        </td>
+                        <td>
+                            @if (usuario.IsEditing)
+                            {
+                                <input type="password" class="form-control" @bind="EditUser.Password" />
+                            }
+                            else
+                            {
+                                @usuario.PasswordMasked
+                            }
+                        </td>
+                        <td>
+                            @if (usuario.IsEditing)
+                            {
+                                <input type="text" class="form-control" @bind="EditUser.RFC" />
+                            }
+                            else
+                            {
+                                @usuario.RFC
+                            }
+                        </td>
+                        <td>
+                            @if (usuario.IsEditing)
+                            {
+                                <button class="btn btn-success btn-sm me-2" @onclick="() => SaveEdit(usuario.Id)">Guardar</button>
+                                <button class="btn btn-secondary btn-sm" @onclick="CancelEdit">Cancelar</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary btn-sm me-2" @onclick="() => EditUserInfo(usuario)">Editar</button>
+                                <button class="btn btn-danger btn-sm" @onclick="() => ConfirmDeleteUser(usuario)">Eliminar</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal de eliminar -->
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
+                    <button type="button" class="btn-close" @onclick="CloseDeleteModal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Seguro que quieres eliminar el usuario?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseDeleteModal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" @onclick="DeleteUser">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private Usuario EditUser = new Usuario();
+    private Usuario userToDelete;
+    private bool showDeleteModal = false;
+
+    private void EditUserInfo(Usuario usuario)
+    {
+        // Copiar los valores actuales del usuario al objeto de edición
+        EditUser = new Usuario
+            {
+                Id = usuario.Id,
+                Name = usuario.Name,
+                Email = usuario.Email,
+                Password = usuario.Password,
+                RFC = usuario.RFC
+            };
+
+        usuario.IsEditing = true;
+    }
+
+    private void SaveEdit(int id)
+    {
+        var user = UsuarioService.Usuarios.FirstOrDefault(u => u.Id == id);
+        if (user != null)
+        {
+            // Guardar los cambios realizados
+            user.Name = EditUser.Name;
+            user.Email = EditUser.Email;
+            user.Password = EditUser.Password;
+            user.RFC = EditUser.RFC;
+            user.IsEditing = false;
+        }
+
+        // Reiniciar el objeto de edición
+        EditUser = new Usuario();
+    }
+
+    private void CancelEdit()
+    {
+        // Cancelar la edición y reiniciar el estado de edición
+        var editingUser = UsuarioService.Usuarios.FirstOrDefault(u => u.IsEditing);
+        if (editingUser != null)
+        {
+            editingUser.IsEditing = false;
+        }
+
+        EditUser = new Usuario();
+    }
+
+    private void ConfirmDeleteUser(Usuario usuario)
+    {
+        userToDelete = usuario;
+        showDeleteModal = true;
+    }
+
+    private void CloseDeleteModal()
+    {
+        showDeleteModal = false;
+        userToDelete = null;
+    }
+
+    private void DeleteUser()
+    {
+        if (userToDelete != null)
+        {
+            // Eliminar el usuario de la lista
+            UsuarioService.Usuarios.Remove(userToDelete);
+            userToDelete = null;
+        }
+
+        // Ocultar el modal
+        showDeleteModal = false;
+    }
+}
