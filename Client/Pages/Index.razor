@@ -157,13 +157,13 @@
 
 @code {
     [Inject] private ArticulosService ArticulosService { get; set; }
-    public static List<Articulos> Articulo = new List<Articulos>();
-    Articulos MiArticulo = new Articulos();
-    Articulos MiArticuloEdit = new Articulos();
+    public static List<Articulo> Articulo = new List<Articulo>();
+    Articulo MiArticulo = new Articulo();
+    Articulo MiArticuloEdit = new Articulo();
     string searchTerm = string.Empty;
     string searchField = "Nombre";
 
-    IEnumerable<Articulos> ArticulosFiltrados => Articulo.Where(i =>
+    IEnumerable<Articulo> ArticulosFiltrados => Articulo.Where(i =>
     {
         if (string.IsNullOrEmpty(searchTerm))
             return true;
@@ -201,7 +201,7 @@
 
     void Guardar()
     {
-        Articulos nuevoArticulo = new Articulos
+        Articulo nuevoArticulo = new Articulo
             {
                 Id = ArticulosService.Articulos.Count + 1,
                 Nombre = MiArticulo.Nombre,
@@ -217,12 +217,12 @@
 
         ArticulosService.AgregarInventario(nuevoArticulo);
         // Resetear campos
-        MiArticulo = new Articulos();
+        MiArticulo = new Articulo();
     }
 
-    void Editar(Articulos articulo)
+    void Editar(Articulo articulo)
     {
-        MiArticuloEdit = new Articulos
+        MiArticuloEdit = new Articulo
             {
                 Id = articulo.Id,
                 Nombre = articulo.Nombre,
@@ -237,28 +237,28 @@
             };
     }
 
-    void GuardarCambios(Articulos articulo)
+    void GuardarCambios(Articulo articulo)
     {
-        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault((Func<Articulo, bool>)(x => x.Id == articulo.Id));
         if (articuloAEliminar != null)
         {
-            ArticulosService.Articulos.Remove(articuloAEliminar);
+                ArticulosService.Articulos.Remove(articuloAEliminar);
             ArticulosService.Articulos.Add(articulo);
             Articulo = ArticulosService.Articulos.OrderBy(x => x.Id).ToList();
         }
     }
 
-    void LamadoAEliminar(Articulos articulo)
+    void LamadoAEliminar(Articulo articulo)
     {
         MiArticuloEdit = articulo;
     }
 
-    void Eliminar(Articulos articulo)
+    void Eliminar(Articulo articulo)
     {
-        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault((Func<Articulo, bool>)(x => x.Id == articulo.Id));
         if (articuloAEliminar != null)
         {
-            ArticulosService.Articulos.Remove(articuloAEliminar);
+                ArticulosService.Articulos.Remove(articuloAEliminar);
         }
     }
 
