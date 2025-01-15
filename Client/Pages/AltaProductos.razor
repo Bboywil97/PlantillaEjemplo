@@ -8,3 +8,271 @@
 <br />
 <br />
 
+<EditForm Model="MiArticulo" OnValidSubmit="Guardar">
+    <div class="row">
+        <div class="col-2">
+            <InputText @bind-Value="MiArticulo.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiArticulo.Marca" class="form-control" Placeholder="Marca"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiArticulo.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+        </div>
+        <div class="col-2">
+            <InputDate @bind-Value="MiArticulo.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiArticulo.Estatus" class="form-control" Placeholder="Estatus"></InputText>
+        </div>
+        <div class="col-2">
+            <InputDate @bind-Value="MiArticulo.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value="MiArticulo.PrecioAdquisicion" class="form-control" Placeholder="Precio de adquisicion"></InputNumber>
+        </div>
+        <div class="col-2">
+            <InputNumber @bind-Value="MiArticulo.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</EditForm>
+
+<br />
+<div class="row">
+    <div class="col-10">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Fecha Registro</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Caracteristicas</th>
+                    <th scope="col">Fecha Compra</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Fecha Adquisicion</th>
+                    <th scope="col">Precio Adquisicion</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in InventariosFiltrados)
+                {
+                    <tr>
+                        <td>@v.Id</td>
+                        <td>@v.FechaRegistro</td>
+                        <td>@v.Nombre</td>
+                        <td>@v.Marca</td>
+                        <td>@v.Caracteristicas</td>
+                        <td>@v.FechaCompra</td>
+                        <td>@v.Estatus</td>
+                        <td>@v.FechaAdquisicion</td>
+                        <td>@v.PrecioAdquisicion</td>
+                        <td>@v.Cantidad</td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @onclick="(() => Editar(v))">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalEliminar" @onclick="(() => LamadoAEliminar(v))">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-2">
+        <section id="services" class="services section-bg">
+            <div class="container">
+                <div class="row" style="display:flex;justify-content:center">
+                    <div class="col-lg-12">
+                        <div class="row" style="display:flex;justify-content:center">
+                            <div class="col-mf-6 d-flex align-items-sretch mt-4 mt-lg-0" style="display:flex;justify-content:center">
+                                <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="icon"><i class="bx bx-file"></i></div>
+                                    <h4><a href="">Resumen</a></h4>
+                                    <p>Productos totales: ???</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="MiArticuloEdit">
+                    <p>Fecha de registro</p>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaRegistro" class="form-control" Placeholder="Fecha Registro"></InputDate>
+                    <p>Nombre</p>
+                    <InputText @bind-Value="MiArticuloEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+                    <p>Marca</p>
+                    <InputText @bind-Value="MiArticuloEdit.Marca" class="form-control" Placeholder="Marca"></InputText>
+                    <p>Caracteristicas</p>
+                    <InputText @bind-Value="MiArticuloEdit.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+                    <p>Fecha Compra</p>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
+                    <p>Estatus</p>
+                    <InputText @bind-Value="MiArticuloEdit.Estatus" class="form-control" Placeholder="Estatus"></InputText>
+                    <p>Fecha de adquisicion</p>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
+                    <p>Precio Adqusicion</p>
+                    <InputNumber @bind-Value="MiArticuloEdit.PrecioAdquisicion" class="form-control" Placeholder="Precio adquisiscion"></InputNumber>
+                    <p>Cantidad</p>
+                    <InputNumber @bind-Value="MiArticuloEdit.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios(MiArticuloEdit))">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de eliminar -->
+<div class="modal fade" id="exampleModalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Registro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Seguro que quieres eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="(() => Eliminar(MiArticuloEdit))">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public static List<Articulos> Articulo = new List<Articulos>();
+    Articulos MiArticulo = new Articulos();
+    Articulos MiArticuloEdit = new Articulos();
+    string searchTerm = string.Empty;
+    string searchField = "Nombre";
+
+    IEnumerable<Articulos> InventariosFiltrados => Articulo.Where(i =>
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+            return true;
+
+        switch (searchField)
+        {
+            case "Nombre":
+                return i.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Marca":
+                return i.Marca.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Caracteristicas":
+                return i.Caracteristicas.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "FechaCompra":
+                if (DateTime.TryParse(searchTerm, out DateTime fechaCompra))
+                {
+                    return i.FechaCompra.HasValue && i.FechaCompra.Value.Date == fechaCompra.Date;
+                }
+                return false;
+            case "Estatus":
+                return i.Estatus.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "FechaAdquisicion":
+                if (DateTime.TryParse(searchTerm, out DateTime fechaAdquisicion))
+                {
+                    return i.FechaAdquisicion.HasValue && i.FechaAdquisicion.Value.Date == fechaAdquisicion.Date;
+                }
+                return false;
+            case "PrecioAdquisicion":
+                return i.PrecioAdquisicion.HasValue && i.PrecioAdquisicion.Value.ToString().Contains(searchTerm);
+            case "Cantidad":
+                return i.Cantidad.HasValue && i.Cantidad.Value.ToString().Contains(searchTerm);
+            default:
+                return false;
+        }
+    });
+
+    void Guardar()
+    {
+        Articulos nuevoArticulo = new Articulos
+            {
+                Id = Articulo.Count + 1,
+                Nombre = MiArticulo.Nombre,
+                Marca = MiArticulo.Marca,
+                Caracteristicas = MiArticulo.Caracteristicas,
+                FechaCompra = MiArticulo.FechaCompra,
+                Estatus = MiArticulo.Estatus,
+                FechaAdquisicion = MiArticulo.FechaAdquisicion,
+                PrecioAdquisicion = MiArticulo.PrecioAdquisicion,
+                Cantidad = MiArticulo.Cantidad,
+                FechaRegistro = DateTime.Now
+            };
+
+        Articulo.Add(nuevoArticulo);
+        // Resetear campos
+        MiArticulo = new Articulos();
+    }
+
+    void Editar(Articulos MiArticulo)
+    {
+        MiArticuloEdit = new Articulos
+            {
+                Id = MiArticulo.Id,
+                Nombre = MiArticulo.Nombre,
+                Marca = MiArticulo.Marca,
+                Caracteristicas = MiArticulo.Caracteristicas,
+                FechaCompra = MiArticulo.FechaCompra,
+                Estatus = MiArticulo.Estatus,
+                FechaAdquisicion = MiArticulo.FechaAdquisicion,
+                PrecioAdquisicion = MiArticulo.PrecioAdquisicion,
+                Cantidad = MiArticulo.Cantidad,
+                FechaRegistro = MiArticulo.FechaRegistro
+            };
+    }
+
+    void GuardarCambios(Articulos MiArticulo)
+    {
+        var ArticuloAEliminar = Articulo.FirstOrDefault(x => x.Id == MiArticulo.Id);
+        if (ArticuloAEliminar != null)
+        {
+            Articulo.Remove(ArticuloAEliminar);
+            Articulo.Add(MiArticuloEdit);
+            Articulo = Articulo.OrderBy(x => x.Id).ToList();
+        }
+    }
+
+    void LamadoAEliminar(Articulos MiArticulo)
+    {
+        MiArticuloEdit = MiArticulo;
+    }
+
+    void Eliminar(Articulos MiArticulo)
+    {
+        var ArticuloAEliminar = Articulo.FirstOrDefault(x => x.Id == MiArticulo.Id);
+        if (ArticuloAEliminar != null)
+        {
+            Articulo.Remove(ArticuloAEliminar);
+        }
+    }
+
+    void Filtrar()
+    {
+        // Este método se llama cuando se hace clic en el botón de filtrar
+    }
+}

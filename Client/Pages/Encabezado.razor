@@ -1,18 +1,19 @@
 ﻿ <!-- ======= Header ======= -->
 <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container">
-        <div class="header-container d-flex align-items-center justify-content-between">
-            <div class="logo">
+    <div class="container" Style="border-radius:15px; background-color:white">
+        <div class="header-container d-flex align-items-center justify-content-between" Style="border-radius:15px">
+            <div class="logo" Style="border-radius:15px">
                 <h1 class="text-light"><a href="index.html"><span>HubTech</span></a></h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
 
-            <nav id="navbar" class="navbar">
+
+            <nav id="navbar" class="navbar" Style="border-radius:15px">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="/">Inicio</a></li>
-                    <li><a class="nav-link scrollto" href=/Prueba>Dashboard</a></li>
-                    <li><a class="nav-link scrollto" href=/AltaProducto>Altas</a></li>
+                    <li><a class="nav-link scrollto" href="/">Inicio</a></li>
+                    <li><a class="nav-link scrollto" href=/Dashboard>Dashboard</a></li>
+                    <li><a class="nav-link scrollto" href=/AltaProductos>Altas</a></li>
                     <li><a class="nav-link scrollto" href=/Productos>Productos</a></li>
                     <li><a class="nav-link scrollto" href=/Login>Login</a></li>
                     <li class="dropdown">
@@ -22,8 +23,8 @@
                             <li class="dropdown">
                                 <a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul>
-                                    <li><a href=/AltaProducto>Altas</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
+                                    <li><a href=/AltaProductos>Altas</a></li>
+                                    <li><a href=/Adscripciones>Adscripciones</a></li>
                                     <li><a href="#">Deep Drop Down 3</a></li>
                                     <li><a href="#">Deep Drop Down 4</a></li>
                                     <li><a href="#">Deep Drop Down 5</a></li>
@@ -35,21 +36,34 @@
                         </ul>
                     </li>
                     <li><a class="nav-link scrollto" href=/Usuarios>Usuarios</a></li>
-                    <li><a class="getstarted scrollto" href=/Dashboard>Get Started</a></li>
+                    <li><a class="getstarted scrollto" href=/Prueba>Get Started</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle">
                     <li><a class="nav-link scrollto active" href="/">Inicio</a></li>
-                    <li><a class="nav-link scrollto" href=/Prueba>Dashboard</a></li>
+                    <li><a class="nav-link scrollto" href=/Prueba>Prueba</a></li>
                     <li><a class="nav-link scrollto" href=/Productos>Productos</a></li>
                     <li><a class="nav-link scrollto" href=/Login>Login</a></li>
                 </i>
 
-
+                <div class="float-end">
+                    <ThemeSwitcher Position="DropdownMenuPosition.End" />
+                </div>
             </nav><!-- .navbar -->
 
         </div><!-- End Header Container -->
     </div>
 </header><!-- End Header -->
-@code {
 
+
+@code
+{
+    [Inject]
+    ToastService ToastService { get; set; } = default!;
+
+    private void OnThemeChanged(string themeName)
+    {
+        // do something when the theme changes
+        ToastService.Notify(new(ToastType.Success, $"Theme changed to {themeName}"));
+    }
 }
+

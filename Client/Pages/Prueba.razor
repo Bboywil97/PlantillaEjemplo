@@ -2,6 +2,7 @@
 
 <div class="container-fluid">
     <Encabezado></Encabezado>
+
     <br />
     <br />
     <br />
@@ -13,7 +14,8 @@
             <div class="card shadow border-0">
                 <div class="card-body text-center">
                     <h6 class="card-title">Total de productos</h6>
-                    <h2 class="text-primary fw-bold">201</h2>
+                    <Grafica></Grafica>
+                    <h2 class="text-primary fw-bold">@GetProductosCount()</h2>
                 </div>
             </div>
         </div>
@@ -21,7 +23,7 @@
             <div class="card shadow border-0">
                 <div class="card-body text-center">
                     <h6 class="card-title">Total de Responsables</h6>
-                    <h2 class="text-primary fw-bold">25</h2>
+                    <h2 class="text-primary fw-bold">@GetResponsablesCount()</h2>
                 </div>
             </div>
         </div>
@@ -63,7 +65,7 @@
         </div>
     </div>
 
-    <!-- Tabla -->
+    <!-- Tabla de Responsables -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow border-0">
@@ -81,25 +83,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var viaje in GetViajes())
+                                @foreach (var responsable in GetResponsables())
                                 {
                                     <tr>
-                                        <td>@viaje.Responsable</td>
-                                        <td>@viaje.Ubicacion</td>
-                                        <td>@viaje.Id</td>
-                                        <td>@viaje.Fecha</td>
+                                        <td>@responsable.Nombre</td>
+                                        <td>@responsable.Ubicacion</td>
+                                        <td>@responsable.Id</td>
+                                        <td>@responsable.FechaAdquisicion</td>
                                         <td>
-                                            @if (viaje.Estatus == "Activo")
+                                            @if (responsable.Estatus == "Activo")
                                             {
-                                                <span class="badge bg-success">@viaje.Estatus</span>
-                                            }
-                                            else if (viaje.Estatus == "Perdido")
-                                            {
-                                                <span class="badge bg-primary">@viaje.Estatus</span>
+                                                <span class="badge bg-success">@responsable.Estatus</span>
                                             }
                                             else
                                             {
-                                                <span class="badge bg-danger">@viaje.Estatus</span>
+                                                <span class="badge bg-danger">@responsable.Estatus</span>
                                             }
                                         </td>
                                     </tr>
@@ -188,24 +186,36 @@
 </script>
 
 @code {
-    public class Viaje
+    public class Responsable
     {
-        public string Responsable { get; set; } = string.Empty;
+        public string Nombre { get; set; } = string.Empty;
         public string Ubicacion { get; set; } = string.Empty;
         public string Id { get; set; } = string.Empty;
-        public string Fecha { get; set; } = string.Empty;
+        public string FechaAdquisicion { get; set; } = string.Empty;
         public string Estatus { get; set; } = string.Empty;
     }
 
-    private List<Viaje> GetViajes()
+    private List<Responsable> GetResponsables()
     {
-        return new List<Viaje>
+        return new List<Responsable>
         {
-            new Viaje { Responsable = "Mario Venegaz", Ubicacion = "Sinaloa ", Id = "6TRJ678", Fecha = "01 Ene 2024 - 15:30 pm", Estatus = "Activo" },
-            new Viaje { Responsable = "Luis Lopez", Ubicacion = "Durango ", Id = "5AYM091", Fecha = "01 Ene 2024 - 09:00 am", Estatus = "Perdido" },
-            new Viaje { Responsable = "Santiago Cruz", Ubicacion = "Tijuana ", Id = "9WHZ654", Fecha = "02 Ene 2024 - 12:45 pm", Estatus = "Activo" },
-            new Viaje { Responsable = "Gerardo Flores", Ubicacion = "Yucatán ", Id = "7PGK263", Fecha = "03 Ene 2024 - 07:00 am", Estatus = "Detenido" },
+            new Responsable { Nombre = "Mario Venegaz", Ubicacion = "Sinaloa", Id = "6TRJ678", FechaAdquisicion = "01 Ene 2024", Estatus = "Activo" },
+            new Responsable { Nombre = "Luis Lopez", Ubicacion = "Durango", Id = "5AYM091", FechaAdquisicion = "01 Ene 2024", Estatus = "Perdido" },
+            new Responsable { Nombre = "Santiago Cruz", Ubicacion = "Tijuana", Id = "9WHZ654", FechaAdquisicion = "02 Ene 2024", Estatus = "Activo" },
+            new Responsable { Nombre = "Gerardo Flores", Ubicacion = "Yucatán", Id = "7PGK263", FechaAdquisicion = "03 Ene 2024", Estatus = "Detenido" }
         };
+    }
+
+    private int GetProductosCount()
+    {
+        // Aquí deberías devolver el número de productos de tu componente de productos
+        return 201; // Ejemplo de valor
+    }
+
+    private int GetResponsablesCount()
+    {
+        // Aquí deberías devolver el número de responsables de tu componente de usuarios
+        return 25; // Ejemplo de valor
     }
 }
 

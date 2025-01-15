@@ -11,13 +11,9 @@
     <div class="row">
         <div class="col-md-2 bg-light sidebar">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">Opción 1</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 2</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 3</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 4</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 5</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 6</a>
-                <a href="#" class="list-group-item list-group-item-action">Opción 7</a>
+                <a href="#" class="list-group-item list-group-item-action active">Usuarios</a>
+                <a href="#" class="list-group-item list-group-item-action">Inventarios</a>
+                <!-- Otras opciones -->
             </div>
         </div>
         <div class="col-md-10 offset-md-2">
@@ -26,36 +22,73 @@
                     <h1 class="my-4">Dashboard</h1>
                 </div>
             </div>
+
+            <!-- Tabla de usuarios -->
             <div class="row">
                 <div class="col-md-12">
+                    <h3 class="my-4">Usuarios</h3>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Fecha</th>
-                                    <th>#</th>
                                     <th>Nombre</th>
-                                    <th>Fecha de adquisicion</th>
-                                    <th>Caracteristicas</th>
+                                    <th>Correo</th>
+                                    <th>Contraseña</th>
+                                    <th>RFC</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var usuario in UsuarioService.Usuarios)
+                                {
+                                    <tr>
+                                        <td>@usuario.Name</td>
+                                        <td>@usuario.Email</td>
+                                        <td>@usuario.PasswordMasked</td>
+                                        <td>@usuario.RFC</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm mx-1">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-sm mx-1">
+                                                <i class="fas fa-pen"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-sm mx-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de inventarios -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="my-4">Inventarios</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th>Nombre del Producto</th>
+                                    <th>Fecha de Adquisición</th>
+                                    <th>Características</th>
                                     <th>Cantidad</th>
-                                    <th>#</th>
                                     <th>Estatus</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in GetVehiculos())
+                                @foreach (var item in GetArticulos())
                                 {
                                     <tr>
-                                        <td>@item.ID</td>
-                                        <td>@item.Modelo</td>
-                                        <td>@item.Entidad</td>
-                                        <td>@item.Municipio</td>
-                                        <td>@item.Unidad</td>
-                                        <td>@item.Capacidad</td>
-                                        <td>@item.Color</td>
-                                        <td>@item.KM</td>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.FechaAdquisicion</td>
+                                        <td>@item.Caracteristicas</td>
+                                        <td>@item.Cantidad</td>
                                         <td>
                                             @if (item.Estatus == "Activo")
                                             {
@@ -129,27 +162,30 @@
 </style>
 
 @code {
-    public class Vehiculo
+    
+    public class Articulos
     {
-        public string ID { get; set; } = string.Empty;
-        public string Modelo { get; set; } = string.Empty;
-        public string Entidad { get; set; } = string.Empty;
-        public string Municipio { get; set; } = string.Empty;
-        public string Unidad { get; set; } = string.Empty;
-        public string Capacidad { get; set; } = string.Empty;
-        public string Color { get; set; } = string.Empty;
-        public string KM { get; set; } = string.Empty;
+        public string Nombre { get; set; } = string.Empty;
+        public string FechaAdquisicion { get; set; } = string.Empty;
+        public string Caracteristicas { get; set; } = string.Empty;
+        public int Cantidad { get; set; } = 0;
         public string Estatus { get; set; } = string.Empty;
     }
 
-    private List<Vehiculo> GetVehiculos()
+    public List<Articulos> GetArticulos()
     {
-        return new List<Vehiculo>
+        return new List<Articulos>
         {
-            new Vehiculo { ID = "1", Modelo = "12-11-25", Entidad = "San Luis Potosí", Municipio = "Jose", Unidad = "12-11-24", Capacidad = "silla verde", Color = "2", KM = "", Estatus = "Activo" },
-            new Vehiculo { ID = "2", Modelo = "12-11-19", Entidad = "Durango", Municipio = "Ale", Unidad = "23-12-18", Capacidad = "sillon negro", Color = "1", KM = "", Estatus = "Inactivo" },
-            // Agrega más vehículos según sea necesario
+            new Articulos { Nombre = "Producto 1", FechaAdquisicion = "2025-01-01", Caracteristicas = "Descripción 1", Cantidad = 10, Estatus = "Activo" },
+            new Articulos { Nombre = "Producto 2", FechaAdquisicion = "2025-02-15", Caracteristicas = "Descripción 2", Cantidad = 5, Estatus = "Inactivo" },
+            // Agrega más productos según sea necesario
         };
     }
+
+    // Este servicio ya debe estar inyectado para obtener los datos de usuarios
+    [Inject]
+    private UsuarioService UsuarioService { get; set; }
+    [Inject]
+    private ArticulosService ArticuloService { get; set; }
 }
 
