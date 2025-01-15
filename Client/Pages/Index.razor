@@ -13,7 +13,7 @@
     <div class="col-4">
         <InputText @bind-Value="searchTerm" class="form-control" Placeholder="Buscar productos..."></InputText>
     </div>
-    <div class="col-2">
+    <div class="col-2" Style="border-radius:15px">
         <InputSelect @bind-Value="searchField" class="form-control">
             <option value="Nombre">Nombre</option>
             <option value="Marca">Marca</option>
@@ -29,38 +29,6 @@
         <button class="btn btn-primary" @onclick="Filtrar">Filtrar</button>
     </div>
 </div>
-
-<EditForm Model="MiInventario" OnValidSubmit="Guardar">
-    <div class="row">
-        <div class="col-2">
-            <InputText @bind-Value="MiInventario.Nombre" class="form-control" Placeholder="Nombre"></InputText>
-        </div>
-        <div class="col-2">
-            <InputText @bind-Value="MiInventario.Marca" class="form-control" Placeholder="Marca"></InputText>
-        </div>
-        <div class="col-2">
-            <InputText @bind-Value="MiInventario.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
-        </div>
-        <div class="col-2">
-            <InputDate @bind-Value="MiInventario.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
-        </div>
-        <div class="col-2">
-            <InputText @bind-Value="MiInventario.Estatus" class="form-control" Placeholder="Estatus"></InputText>
-        </div>
-        <div class="col-2">
-            <InputDate @bind-Value="MiInventario.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
-        </div>
-        <div class="col-2">
-            <InputNumber @bind-Value="MiInventario.PrecioAdquisicion" class="form-control" Placeholder="Precio de adquisicion"></InputNumber>
-        </div>
-        <div class="col-2">
-            <InputNumber @bind-Value="MiInventario.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
-        </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-success">Guardar</button>
-        </div>
-    </div>
-</EditForm>
 
 <br />
 <div class="row">
@@ -82,7 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var v in InventariosFiltrados)
+                @foreach (var v in ArticulosFiltrados)
                 {
                     <tr>
                         <td>@v.Id</td>
@@ -139,30 +107,30 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <EditForm Model="MiInventarioEdit">
+                <EditForm Model="MiArticuloEdit">
                     <p>Fecha de registro</p>
-                    <InputDate @bind-Value="MiInventarioEdit.FechaRegistro" class="form-control" Placeholder="Fecha Registro"></InputDate>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaRegistro" class="form-control" Placeholder="Fecha Registro"></InputDate>
                     <p>Nombre</p>
-                    <InputText @bind-Value="MiInventarioEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+                    <InputText @bind-Value="MiArticuloEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
                     <p>Marca</p>
-                    <InputText @bind-Value="MiInventarioEdit.Marca" class="form-control" Placeholder="Marca"></InputText>
+                    <InputText @bind-Value="MiArticuloEdit.Marca" class="form-control" Placeholder="Marca"></InputText>
                     <p>Caracteristicas</p>
-                    <InputText @bind-Value="MiInventarioEdit.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+                    <InputText @bind-Value="MiArticuloEdit.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
                     <p>Fecha Compra</p>
-                    <InputDate @bind-Value="MiInventarioEdit.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
                     <p>Estatus</p>
-                    <InputText @bind-Value="MiInventarioEdit.Estatus" class="form-control" Placeholder="Estatus"></InputText>
+                    <InputText @bind-Value="MiArticuloEdit.Estatus" class="form-control" Placeholder="Estatus"></InputText>
                     <p>Fecha de adquisicion</p>
-                    <InputDate @bind-Value="MiInventarioEdit.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
+                    <InputDate @bind-Value="MiArticuloEdit.FechaAdquisicion" class="form-control" Placeholder="Fecha de adquisicion"></InputDate>
                     <p>Precio Adqusicion</p>
-                    <InputNumber @bind-Value="MiInventarioEdit.PrecioAdquisicion" class="form-control" Placeholder="Precio adquisiscion"></InputNumber>
+                    <InputNumber @bind-Value="MiArticuloEdit.PrecioAdquisicion" class="form-control" Placeholder="Precio adquisiscion"></InputNumber>
                     <p>Cantidad</p>
-                    <InputNumber @bind-Value="MiInventarioEdit.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
+                    <InputNumber @bind-Value="MiArticuloEdit.Cantidad" class="form-control" Placeholder="Cantidad de producto"></InputNumber>
                 </EditForm>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios(MiInventarioEdit))">Guardar</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios(MiArticuloEdit))">Guardar</button>
             </div>
         </div>
     </div>
@@ -181,20 +149,21 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="(() => Eliminar(MiInventarioEdit))">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="(() => Eliminar(MiArticuloEdit))">Eliminar</button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    public static List<Inventario> Inventarios = new List<Inventario>();
-    Inventario MiInventario = new Inventario();
-    Inventario MiInventarioEdit = new Inventario();
+    [Inject] private ArticulosService ArticulosService { get; set; }
+    public static List<Articulos> Articulo = new List<Articulos>();
+    Articulos MiArticulo = new Articulos();
+    Articulos MiArticuloEdit = new Articulos();
     string searchTerm = string.Empty;
     string searchField = "Nombre";
 
-    IEnumerable<Inventario> InventariosFiltrados => Inventarios.Where(i =>
+    IEnumerable<Articulos> ArticulosFiltrados => Articulo.Where(i =>
     {
         if (string.IsNullOrEmpty(searchTerm))
             return true;
@@ -232,64 +201,64 @@
 
     void Guardar()
     {
-        Inventario nuevoInventario = new Inventario
+        Articulos nuevoArticulo = new Articulos
             {
-                Id = Inventarios.Count() + 1,
-                Nombre = MiInventario.Nombre,
-                Marca = MiInventario.Marca,
-                Caracteristicas = MiInventario.Caracteristicas,
-                FechaCompra = MiInventario.FechaCompra,
-                Estatus = MiInventario.Estatus,
-                FechaAdquisicion = MiInventario.FechaAdquisicion,
-                PrecioAdquisicion = MiInventario.PrecioAdquisicion,
-                Cantidad = MiInventario.Cantidad,
+                Id = ArticulosService.Articulos.Count + 1,
+                Nombre = MiArticulo.Nombre,
+                Marca = MiArticulo.Marca,
+                Caracteristicas = MiArticulo.Caracteristicas,
+                FechaCompra = MiArticulo.FechaCompra,
+                Estatus = MiArticulo.Estatus,
+                FechaAdquisicion = MiArticulo.FechaAdquisicion,
+                PrecioAdquisicion = MiArticulo.PrecioAdquisicion,
+                Cantidad = MiArticulo.Cantidad,
                 FechaRegistro = DateTime.Now
             };
 
-        Inventarios.Add(nuevoInventario);
+        ArticulosService.AgregarInventario(nuevoArticulo);
         // Resetear campos
-        MiInventario = new Inventario();
+        MiArticulo = new Articulos();
     }
 
-    void Editar(Inventario MiInventario)
+    void Editar(Articulos articulo)
     {
-        MiInventarioEdit = new Inventario
+        MiArticuloEdit = new Articulos
             {
-                Id = MiInventario.Id,
-                Nombre = MiInventario.Nombre,
-                Marca = MiInventario.Marca,
-                Caracteristicas = MiInventario.Caracteristicas,
-                FechaCompra = MiInventario.FechaCompra,
-                Estatus = MiInventario.Estatus,
-                FechaAdquisicion = MiInventario.FechaAdquisicion,
-                PrecioAdquisicion = MiInventario.PrecioAdquisicion,
-                Cantidad = MiInventario.Cantidad,
-                FechaRegistro = MiInventario.FechaRegistro
+                Id = articulo.Id,
+                Nombre = articulo.Nombre,
+                Marca = articulo.Marca,
+                Caracteristicas = articulo.Caracteristicas,
+                FechaCompra = articulo.FechaCompra,
+                Estatus = articulo.Estatus,
+                FechaAdquisicion = articulo.FechaAdquisicion,
+                PrecioAdquisicion = articulo.PrecioAdquisicion,
+                Cantidad = articulo.Cantidad,
+                FechaRegistro = articulo.FechaRegistro
             };
     }
 
-    void GuardarCambios(Inventario MiInventario)
+    void GuardarCambios(Articulos articulo)
     {
-        var inventarioAEliminar = Inventarios.FirstOrDefault(x => x.Id == MiInventario.Id);
-        if (inventarioAEliminar != null)
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        if (articuloAEliminar != null)
         {
-            Inventarios.Remove(inventarioAEliminar);
-            Inventarios.Add(MiInventarioEdit);
-            Inventarios = Inventarios.OrderBy(x => x.Id).ToList();
+            ArticulosService.Articulos.Remove(articuloAEliminar);
+            ArticulosService.Articulos.Add(articulo);
+            Articulo = ArticulosService.Articulos.OrderBy(x => x.Id).ToList();
         }
     }
 
-    void LamadoAEliminar(Inventario MiInventario)
+    void LamadoAEliminar(Articulos articulo)
     {
-        MiInventarioEdit = MiInventario;
+        MiArticuloEdit = articulo;
     }
 
-    void Eliminar(Inventario MiInventario)
+    void Eliminar(Articulos articulo)
     {
-        var inventarioAEliminar = Inventarios.FirstOrDefault(x => x.Id == MiInventario.Id);
-        if (inventarioAEliminar != null)
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        if (articuloAEliminar != null)
         {
-            Inventarios.Remove(inventarioAEliminar);
+            ArticulosService.Articulos.Remove(articuloAEliminar);
         }
     }
 
@@ -297,4 +266,6 @@
     {
         // Este método se llama cuando se hace clic en el botón de filtrar
     }
+    
 }
+

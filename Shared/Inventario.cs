@@ -4,33 +4,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace PlantillaEjemplo.Shared
 {
-    public class Inventario
+    public class Articulos
     {
         public int Id { get; set; }
-
         public string Nombre { get; set; } = string.Empty;
         public DateTime? FechaRegistro { get; set; } = DateTime.Now;
-
         public string Marca { get; set; } = string.Empty;
-
         public string Estatus { get; set; } = string.Empty;
-
         public DateTime? FechaCompra { get; set; } = DateTime.Now;
         public DateTime? FechaAdquisicion { get; set; } = DateTime.Now;
-
         public double? PrecioAdquisicion { get; set; }
-
         public string Producto { get; set; } = string.Empty;
-
         public int? Cantidad { get; set; }
-
         public string Caracteristicas { get; set; } = string.Empty;
     }
+
 }
+
+public class ArticulosService
+{
+    public List<Articulos> Articulos { get; private set; } = new List<Articulos>();
+
+    public void AgregarInventario(Articulos articulo)
+    {
+        Articulos.Add(articulo);
+    }
+}
+
 public class UsuarioService
 {
     public List<Usuario> Usuarios { get; private set; } = new List<Usuario>();
@@ -48,8 +51,25 @@ public class Usuario
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string RFC { get; set; } = string.Empty;
-
     public bool IsEditing { get; set; } = false;
-
     public string PasswordMasked => new string('*', Password.Length);
 }
+
+public class Adscripciones
+{
+    public int Id { get; set; }
+    public string Clave { get; set; } = string.Empty;
+    public string Nombre { get; set; } = string.Empty;
+    public string Direccion { get; set; } = string.Empty;
+}
+
+public class AdscripcionesService
+{
+    public List<Adscripciones> Adscripciones { get; private set; } = new List<Adscripciones>();
+
+    public void AgregarAdscripciones(Adscripciones adscripciones)
+    {
+        Adscripciones.Add(adscripciones);
+    }
+}
+
