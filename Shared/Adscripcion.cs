@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlantillaEjemplo.Shared
 {
-    public class Adscripciones
+    public class Adscripcion
     {
         public int Id { get; set; }
         public string Clave { get; set; } = string.Empty;
@@ -15,8 +15,8 @@ namespace PlantillaEjemplo.Shared
     }
     public class AdscripcionesService
     {
-        public List<Adscripciones> Adscripciones { get; private set; } = new List<Adscripciones>();
-        public void AgregarAdscripcion(Adscripciones adscripcion)
+        public List<Adscripcion> Adscripciones { get; private set; } = new List<Adscripcion>();
+        public void AgregarAdscripcion(Adscripcion adscripcion)
         {
             Adscripciones.Add(adscripcion);
         }

@@ -16,5 +16,6 @@ namespace PlantillaEjemplo.Shared
         public string Ubicacion { get; set; } = string.Empty;
         public string Observaciones { get; set; } = string.Empty;
         public DateTime FechaAsignacion { get; set; } = DateTime.Now;
+        public object Nombre { get; set; }
     }
 }
