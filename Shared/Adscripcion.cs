@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlantillaEjemplo.Shared
 {
-    public class Adscripciones
+    public class Adscripcion
     {
         public int Id { get; set; }
         public string Clave { get; set; } = string.Empty;
@@ -14,21 +14,21 @@ namespace PlantillaEjemplo.Shared
         public string Direccion { get; set; } = string.Empty;
     }
 
-    public class AdscripcionesService
+    public class AdscripcionService
     {
-        public List<Adscripciones> Adscripciones { get; private set; } = new List<Adscripciones>();
+        public List<Adscripcion> Adscripciones { get; private set; } = new List<Adscripcion>();
 
-        public void AgregarAdscripcion(Adscripciones adscripcion)
+        public void AgregarAdscripcion(Adscripcion adscripcion)
         {
             Adscripciones.Add(adscripcion);
         }
 
-        public void EliminarAdscripcion(Adscripciones adscripcion)
+        public void EliminarAdscripcion(Adscripcion adscripcion)
         {
             Adscripciones.Remove(adscripcion);
         }
 
-        public void ActualizarAdscripcion(Adscripciones adscripcion)
+        public void ActualizarAdscripcion(Adscripcion adscripcion)
         {
             var index = Adscripciones.FindIndex(a => a.Id == adscripcion.Id);
             if (index != -1)
@@ -43,4 +43,5 @@ namespace PlantillaEjemplo.Shared
         }
     }
 }
+
 

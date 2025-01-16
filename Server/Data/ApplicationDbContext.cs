@@ -1,6 +1,7 @@
 ﻿using PlantillaEjemplo.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using PlantillaEjemplo.Client.Pages;
 
 namespace PlantillaEjemplo.Server.Data
 {
@@ -14,7 +15,11 @@ namespace PlantillaEjemplo.Server.Data
         {
         }
 
-
         public DbSet<Articulos> Articulos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Adscripcion> Adscripciones { get; set; }
+        public DbSet<Responsable> Responsables { get; set; }
+        public DbSet<Inventario1> Inventario { get; set; }
     }
 }
+

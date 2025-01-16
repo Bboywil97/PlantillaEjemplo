@@ -1,5 +1,5 @@
 ﻿@page "/Adscripciones"
-@inject PlantillaEjemplo.Shared.AdscripcionesService AdscripcionesService
+@inject PlantillaEjemplo.Shared.AdscripcionService AdscripcionesService
 
 <Encabezado />
 <br />
@@ -128,12 +128,12 @@
 </div>
 
 @code {
-    PlantillaEjemplo.Shared.Adscripciones MiAdscripcion = new PlantillaEjemplo.Shared.Adscripciones();
-    PlantillaEjemplo.Shared.Adscripciones MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripciones();
+    PlantillaEjemplo.Shared.Adscripcion MiAdscripcion = new PlantillaEjemplo.Shared.Adscripcion();
+    PlantillaEjemplo.Shared.Adscripcion MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripcion();
     string searchTerm = string.Empty;
     string searchField = "Nombre";
 
-    IEnumerable<PlantillaEjemplo.Shared.Adscripciones> AdscripcionesFiltrados => AdscripcionesService.Adscripciones.Where(i =>
+    IEnumerable<PlantillaEjemplo.Shared.Adscripcion> AdscripcionesFiltrados => AdscripcionesService.Adscripciones.Where(i =>
     {
         if (string.IsNullOrEmpty(searchTerm))
             return true;
@@ -151,9 +151,12 @@
         }
     });
 
-    void Guardar()
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+
+        void Guardar()
     {
-        PlantillaEjemplo.Shared.Adscripciones nuevoAdscripcion = new PlantillaEjemplo.Shared.Adscripciones
+        PlantillaEjemplo.Shared.Adscripcion nuevoAdscripcion = new PlantillaEjemplo.Shared.Adscripcion
             {
                 Id = AdscripcionesService.Adscripciones.Count + 1,
                 Nombre = MiAdscripcion.Nombre,
@@ -163,12 +166,12 @@
 
         AdscripcionesService.AgregarAdscripcion(nuevoAdscripcion);
         // Resetear campos
-        MiAdscripcion = new PlantillaEjemplo.Shared.Adscripciones();
+        MiAdscripcion = new PlantillaEjemplo.Shared.Adscripcion();
     }
 
-    void Editar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
+    void Editar(PlantillaEjemplo.Shared.Adscripcion MiAdscripcion)
     {
-        MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripciones
+        MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripcion
             {
                 Id = MiAdscripcion.Id,
                 Nombre = MiAdscripcion.Nombre,
@@ -183,12 +186,12 @@
         AdscripcionesService.OrdenarAdscripciones();
     }
 
-    void LamadoAEliminar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
+    void LamadoAEliminar(PlantillaEjemplo.Shared.Adscripcion MiAdscripcion)
     {
         MiAdscripcionEdit = MiAdscripcion;
     }
 
-    void Eliminar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
+    void Eliminar(PlantillaEjemplo.Shared.Adscripcion MiAdscripcion)
     {
         AdscripcionesService.EliminarAdscripcion(MiAdscripcion);
     }

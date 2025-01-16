@@ -14,10 +14,10 @@
             <InputText @bind-Value="MiArticulo.Nombre" class="form-control" Placeholder="Nombre"></InputText>
         </div>
         <div class="col-2">
-            <InputText @bind-Value="MiArticulo.Marca" class="form-control" Placeholder="Marca"></InputText>
+            <InputNumber @bind-Value="MiArticulo.IdMarca" class="form-control" Placeholder="Marca"></InputNumber>
         </div>
         <div class="col-2">
-            <InputText @bind-Value="MiArticulo.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+            <InputText @bind-Value="MiArticulo.Descripcion" class="form-control" Placeholder="Descripcion"></InputText>
         </div>
         <div class="col-2">
             <InputDate @bind-Value="MiArticulo.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
@@ -66,8 +66,8 @@
                         <td>@v.Id</td>
                         <td>@v.FechaRegistro</td>
                         <td>@v.Nombre</td>
-                        <td>@v.Marca</td>
-                        <td>@v.Caracteristicas</td>
+                        <td>@v.IdMarca</td>
+                        <td>@v.Descripcion</td>
                         <td>@v.FechaCompra</td>
                         <td>@v.Estatus</td>
                         <td>@v.FechaAdquisicion</td>
@@ -123,9 +123,9 @@
                     <p>Nombre</p>
                     <InputText @bind-Value="MiArticuloEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
                     <p>Marca</p>
-                    <InputText @bind-Value="MiArticuloEdit.Marca" class="form-control" Placeholder="Marca"></InputText>
+                    <InputNumber @bind-Value="MiArticuloEdit.IdMarca" class="form-control" Placeholder="Marca"></InputNumber>
                     <p>Caracteristicas</p>
-                    <InputText @bind-Value="MiArticuloEdit.Caracteristicas" class="form-control" Placeholder="Caracteristicas"></InputText>
+                    <InputText @bind-Value="MiArticuloEdit.Descripcion" class="form-control" Placeholder="Descripcion"></InputText>
                     <p>Fecha Compra</p>
                     <InputDate @bind-Value="MiArticuloEdit.FechaCompra" class="form-control" Placeholder="Fecha Compra"></InputDate>
                     <p>Estatus</p>
@@ -181,10 +181,9 @@
         {
             case "Nombre":
                 return i.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
-            case "Marca":
-                return i.Marca.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
-            case "Caracteristicas":
-                return i.Caracteristicas.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            
+            case "Descripcion":
+                return i.Descripcion.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
             case "FechaCompra":
                 if (DateTime.TryParse(searchTerm, out DateTime fechaCompra))
                 {
@@ -214,8 +213,8 @@
             {
                 Id = Articulo.Count + 1,
                 Nombre = MiArticulo.Nombre,
-                Marca = MiArticulo.Marca,
-                Caracteristicas = MiArticulo.Caracteristicas,
+                IdMarca = MiArticulo.IdMarca,
+                Descripcion = MiArticulo.Descripcion,
                 FechaCompra = MiArticulo.FechaCompra,
                 Estatus = MiArticulo.Estatus,
                 FechaAdquisicion = MiArticulo.FechaAdquisicion,
@@ -235,8 +234,8 @@
             {
                 Id = MiArticulo.Id,
                 Nombre = MiArticulo.Nombre,
-                Marca = MiArticulo.Marca,
-                Caracteristicas = MiArticulo.Caracteristicas,
+                IdMarca = MiArticulo.IdMarca,
+                Descripcion = MiArticulo.Descripcion,
                 FechaCompra = MiArticulo.FechaCompra,
                 Estatus = MiArticulo.Estatus,
                 FechaAdquisicion = MiArticulo.FechaAdquisicion,

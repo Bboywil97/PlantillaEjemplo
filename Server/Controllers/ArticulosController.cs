@@ -51,6 +51,19 @@ namespace PlantillaArticulo.Server.Controllers
                 return BadRequest("no se encuentra");
 
             DbObjeto.Nombre = objeto.Nombre;
+            DbObjeto.IdMarca = objeto.IdMarca;
+            DbObjeto.Descripcion = objeto.Descripcion;
+            DbObjeto.FechaCompra = objeto.FechaCompra;
+            DbObjeto.Estatus = objeto.Estatus;
+            DbObjeto.PrecioAdquisicion = objeto.PrecioAdquisicion;
+            DbObjeto.FechaRegistro = objeto.FechaRegistro;
+            
+            
+            DbObjeto.FechaAdquisicion = objeto.FechaAdquisicion;
+            
+            DbObjeto.Cantidad = objeto.Cantidad;
+            
+
             await _context.SaveChangesAsync();
 
             return Ok(await _context.Articulos.ToListAsync());
@@ -77,4 +90,3 @@ namespace PlantillaArticulo.Server.Controllers
         }
     }
 }
-
