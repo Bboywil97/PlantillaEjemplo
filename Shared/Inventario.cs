@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PlantillaEjemplo.Shared
 {
-    
 
 }
 public class Articulos
@@ -27,9 +26,9 @@ public class Articulos
 
 public class ArticulosService
 {
-    public List<Articulos> Articulos { get; private set; } = new List<Articulos>();
+    public List<PlantillaEjemplo.Shared.Articulos> Articulos { get; private set; } = new List<PlantillaEjemplo.Shared.Articulos>();
 
-    public void AgregarInventario(Articulos articulo)
+    public void AgregarInventario(PlantillaEjemplo.Shared.Articulos articulo)
     {
         Articulos.Add(articulo);
     }
