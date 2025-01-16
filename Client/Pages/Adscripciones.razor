@@ -8,5 +8,90 @@
 <br />
 
 @code {
+    public static List<Adscripciones> Adscripcion = new List<Adscripciones>();
+    Adscripciones MiAdscripcion = new Adscripciones();
+    Adscripciones MiAdscripcionEdit = new Adscripciones();
+    string searchTerm = string.Empty;
+    string searchField = "Nombre";
 
+    IEnumerable<Adscripciones> AdscripcionesFiltrados => Adscripcion.Where(i =>
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+            return true;
+
+        switch (searchField)
+        {
+            case "Nombre":
+                return i.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Marca":
+                return i.Clave.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            case "Caracteristicas":
+                return i.Direccion.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+            
+        }
+    });
+
+    void Guardar()
+    {
+        Adscripciones nuevoAdscripcion = new Adscripciones
+            {
+                Id = Adscripcion.Count + 1,
+                Nombre = MiAdscripcion.Nombre,
+                Clave = MiAdscripcion.Clave,
+                Direccion = MiAdscripcion.Direccion,
+                
+            };
+
+        Adscripcion.Add(nuevoAdscripcion);
+        // Resetear campos
+        MiAdscripcion = new Adscripciones();
+    }
+
+    void Editar(Adscripciones MiAdscripcion)
+    {
+        MiAdscripcionEdit = new Adscripciones
+            {
+                Id = MiAdscripcion.Id,
+                Nombre = MiAdscripcion.Nombre,
+                Marca = MiAdscripcion.Marca,
+                Caracteristicas = MiAdscripcion.Caracteristicas,
+                FechaCompra = MiAdscripcion.FechaCompra,
+                Estatus = MiAdscripcion.Estatus,
+                FechaAdquisicion = MiAdscripcion.FechaAdquisicion,
+                PrecioAdquisicion = MiAdscripcion.PrecioAdquisicion,
+                Cantidad = MiAdscripcion.Cantidad,
+                FechaRegistro = MiAdscripcion.FechaRegistro
+            };
+    }
+
+    void GuardarCambios(Adscripciones MiAdscripcion)
+    {
+        var AdscripcionAEliminar = Adscripcion.FirstOrDefault(x => x.Id == MiAdscripcion.Id);
+        if (AdscripcionAEliminar != null)
+        {
+            Adscripcion.Remove(AdscripcionAEliminar);
+            Adscripcion.Add(MiAdscripcionEdit);
+            Adscripcion = Adscripcion.OrderBy(x => x.Id).ToList();
+        }
+    }
+
+    void LamadoAEliminar(Adscripciones MiAdscripcion)
+    {
+        MiAdscripcionEdit = MiAdscripcion;
+    }
+
+    void Eliminar(Adscripciones MiAdscripcion)
+    {
+        var AdscripcionAEliminar = Adscripcion.FirstOrDefault(x => x.Id == MiAdscripcion.Id);
+        if (AdscripcionAEliminar != null)
+        {
+            Adscripcion.Remove(AdscripcionAEliminar);
+        }
+    }
+
+    void Filtrar()
+    {
+        // Este método se llama cuando se hace clic en el botón de filtrar
+    }
+    
 }

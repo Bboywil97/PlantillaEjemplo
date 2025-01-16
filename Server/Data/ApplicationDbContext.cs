@@ -15,6 +15,6 @@ namespace PlantillaEjemplo.Server.Data
         }
 
 
-        public DbSet<Articulo> Articulos { get; set; }
+        public DbSet<Articulos> Articulos { get; set; }
     }
 }

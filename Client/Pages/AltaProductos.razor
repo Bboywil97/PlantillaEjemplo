@@ -166,13 +166,13 @@
 </div>
 
 @code {
-    public static List<Articulo> Articulo = new List<Articulo>();
-    Articulo MiArticulo = new Articulo();
-    Articulo MiArticuloEdit = new Articulo();
+    public static List<Articulos> Articulo = new List<Articulos>();
+    Articulos MiArticulo = new Articulos();
+    Articulos MiArticuloEdit = new Articulos();
     string searchTerm = string.Empty;
     string searchField = "Nombre";
 
-    IEnumerable<Articulo> InventariosFiltrados => Articulo.Where(i =>
+    IEnumerable<Articulos> InventariosFiltrados => Articulo.Where(i =>
     {
         if (string.IsNullOrEmpty(searchTerm))
             return true;
@@ -210,7 +210,7 @@
 
     void Guardar()
     {
-        Articulo nuevoArticulo = new Articulo
+        Articulos nuevoArticulo = new Articulos
             {
                 Id = Articulo.Count + 1,
                 Nombre = MiArticulo.Nombre,
@@ -226,12 +226,12 @@
 
         Articulo.Add(nuevoArticulo);
         // Resetear campos
-        MiArticulo = new Articulo();
+        MiArticulo = new Articulos();
     }
 
-    void Editar(Articulo MiArticulo)
+    void Editar(Articulos MiArticulo)
     {
-        MiArticuloEdit = new Articulo
+        MiArticuloEdit = new Articulos
             {
                 Id = MiArticulo.Id,
                 Nombre = MiArticulo.Nombre,
@@ -246,7 +246,7 @@
             };
     }
 
-    void GuardarCambios(Articulo MiArticulo)
+    void GuardarCambios(Articulos MiArticulo)
     {
         var ArticuloAEliminar = Articulo.FirstOrDefault(x => x.Id == MiArticulo.Id);
         if (ArticuloAEliminar != null)
@@ -257,12 +257,12 @@
         }
     }
 
-    void LamadoAEliminar(Articulo MiArticulo)
+    void LamadoAEliminar(Articulos MiArticulo)
     {
         MiArticuloEdit = MiArticulo;
     }
 
-    void Eliminar(Articulo MiArticulo)
+    void Eliminar(Articulos MiArticulo)
     {
         var ArticuloAEliminar = Articulo.FirstOrDefault(x => x.Id == MiArticulo.Id);
         if (ArticuloAEliminar != null)
