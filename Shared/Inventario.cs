@@ -7,28 +7,26 @@ using System.Threading.Tasks;
 
 namespace PlantillaEjemplo.Shared
 {
-
-}
-public class Articulos
-{
-    public int Id { get; set; }
-    public string Nombre { get; set; } = string.Empty;
-    public DateTime? FechaRegistro { get; set; } = DateTime.Now;
-    public string Marca { get; set; } = string.Empty;
-    public string Estatus { get; set; } = string.Empty;
-    public DateTime? FechaCompra { get; set; } = DateTime.Now;
-    public DateTime? FechaAdquisicion { get; set; } = DateTime.Now;
-    public double? PrecioAdquisicion { get; set; }
-    public string Producto { get; set; } = string.Empty;
-    public int? Cantidad { get; set; }
-    public string Caracteristicas { get; set; } = string.Empty;
-}
+    public class Articulos
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+        public DateTime? FechaRegistro { get; set; } = DateTime.Now;
+        public string Marca { get; set; } = string.Empty;
+        public string Estatus { get; set; } = string.Empty;
+        public DateTime? FechaCompra { get; set; } = DateTime.Now;
+        public DateTime? FechaAdquisicion { get; set; } = DateTime.Now;
+        public double? PrecioAdquisicion { get; set; }
+        public string Producto { get; set; } = string.Empty;
+        public int? Cantidad { get; set; }
+        public string Caracteristicas { get; set; } = string.Empty;
+    }
 
 public class ArticulosService
 {
-    public List<PlantillaEjemplo.Shared.Articulos> Articulos { get; private set; } = new List<PlantillaEjemplo.Shared.Articulos>();
+    public List<Articulo> Articulos { get; private set; } = new List<Articulo>();
 
-    public void AgregarInventario(PlantillaEjemplo.Shared.Articulos articulo)
+    public void AgregarInventario(Articulo articulo)
     {
         Articulos.Add(articulo);
     }
