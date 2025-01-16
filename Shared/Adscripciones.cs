@@ -13,4 +13,12 @@ namespace PlantillaEjemplo.Shared
         public string Nombre { get; set; } = string.Empty;
         public string Direccion { get; set; } = string.Empty;
     }
+    public class AdscripcionesService
+    {
+        public List<Adscripciones> Adscripciones { get; private set; } = new List<Adscripciones>();
+        public void AgregarAdscripcion(Adscripciones adscripcion)
+        {
+            Adscripciones.Add(adscripcion);
+        }
+    }
 }

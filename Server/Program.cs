@@ -1,19 +1,26 @@
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Hosting.StaticWebAssets; // Add this using directive
+using Microsoft.AspNetCore.Hosting.StaticWebAssets;
+using Microsoft.EntityFrameworkCore;
+using PlantillaEjemplo.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
-// Add services to the container.
 
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Agregar controladores
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging(); // This line requires the new using directive
+    app.UseWebAssemblyDebugging();
 }
 else
 {

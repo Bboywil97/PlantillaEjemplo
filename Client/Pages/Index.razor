@@ -239,10 +239,10 @@
 
     void GuardarCambios(Articulos articulo)
     {
-        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault((Func<Articulos, bool>)(x => x.Id == articulo.Id));
         if (articuloAEliminar != null)
         {
-            ArticulosService.Articulos.Remove(articuloAEliminar);
+                ArticulosService.Articulos.Remove(articuloAEliminar);
             ArticulosService.Articulos.Add(articulo);
             Articulo = ArticulosService.Articulos.OrderBy(x => x.Id).ToList();
         }
@@ -255,10 +255,10 @@
 
     void Eliminar(Articulos articulo)
     {
-        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault(x => x.Id == articulo.Id);
+        var articuloAEliminar = ArticulosService.Articulos.FirstOrDefault((Func<Articulos, bool>)(x => x.Id == articulo.Id));
         if (articuloAEliminar != null)
         {
-            ArticulosService.Articulos.Remove(articuloAEliminar);
+                ArticulosService.Articulos.Remove(articuloAEliminar);
         }
     }
 
