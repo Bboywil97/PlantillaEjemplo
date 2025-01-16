@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PlantillaEjemplo.Shared
 {
-    public class Articulos
+    public class Articulos1
     {
         public int Id { get; set; }
         public string Nombre { get; set; } = string.Empty;
