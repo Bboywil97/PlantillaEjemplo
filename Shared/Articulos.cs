@@ -22,4 +22,14 @@ namespace PlantillaEjemplo.Shared
         public int? Cantidad { get; set; }
         public string Caracteristicas { get; set; } = string.Empty;
     }
+
+    public class ArticulosService
+    {
+        public List<Articulos> Articulos { get; private set; } = new List<Articulos>();
+        public void AgregarInventario(Articulos articulo)
+        {
+            Articulos.Add(articulo);
+        }
+    }
+
 }

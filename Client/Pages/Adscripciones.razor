@@ -1,4 +1,6 @@
 ﻿@page "/Adscripciones"
+@inject PlantillaEjemplo.Shared.AdscripcionesService AdscripcionesService
+
 <Encabezado />
 <br />
 <br />
@@ -7,14 +9,131 @@
 <br />
 <br />
 
+<EditForm Model="MiAdscripcion" OnValidSubmit="Guardar">
+    <div class="row">
+        <div class="col-2">
+            <InputText @bind-Value="MiAdscripcion.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiAdscripcion.Clave" class="form-control" Placeholder="Clave"></InputText>
+        </div>
+        <div class="col-2">
+            <InputText @bind-Value="MiAdscripcion.Direccion" class="form-control" Placeholder="Direccion"></InputText>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </div>
+</EditForm>
+
+<br />
+<div class="row">
+    <div class="col-10">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Clave</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in AdscripcionesFiltrados)
+                {
+                    <tr>
+                        <td>@v.Id</td>
+                        <td>@v.Nombre</td>
+                        <td>@v.Clave</td>
+                        <td>@v.Direccion</td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @onclick="(() => Editar(v))">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalEliminar" @onclick="(() => LamadoAEliminar(v))">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-2">
+        <section id="services" class="services section-bg">
+            <div class="container">
+                <div class="row" style="display:flex;justify-content:center">
+                    <div class="col-lg-12">
+                        <div class="row" style="display:flex;justify-content:center">
+                            <div class="col-mf-6 d-flex align-items-sretch mt-4 mt-lg-0" style="display:flex;justify-content:center">
+                                <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="icon"><i class="bx bx-file"></i></div>
+                                    <h4><a href="">Resumen</a></h4>
+                                    <p>Productos totales: ???</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="MiAdscripcionEdit">
+                    <p>Nombre</p>
+                    <InputText @bind-Value="MiAdscripcionEdit.Nombre" class="form-control" Placeholder="Nombre"></InputText>
+                    <p>Clave</p>
+                    <InputText @bind-Value="MiAdscripcionEdit.Clave" class="form-control" Placeholder="Clave"></InputText>
+                    <p>Direccion</p>
+                    <InputText @bind-Value="MiAdscripcionEdit.Direccion" class="form-control" Placeholder="Direccion"></InputText>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" @onclick="(() => GuardarCambios())">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de eliminar -->
+<div class="modal fade" id="exampleModalEliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Registro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Seguro que quieres eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="(() => Eliminar(MiAdscripcionEdit))">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
-    public static List<Adscripciones> Adscripcion = new List<Adscripciones>();
-    Adscripciones MiAdscripcion = new Adscripciones();
-    Adscripciones MiAdscripcionEdit = new Adscripciones();
+    PlantillaEjemplo.Shared.Adscripciones MiAdscripcion = new PlantillaEjemplo.Shared.Adscripciones();
+    PlantillaEjemplo.Shared.Adscripciones MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripciones();
     string searchTerm = string.Empty;
     string searchField = "Nombre";
 
-    IEnumerable<Adscripciones> AdscripcionesFiltrados => Adscripcion.Where(i =>
+    IEnumerable<PlantillaEjemplo.Shared.Adscripciones> AdscripcionesFiltrados => AdscripcionesService.Adscripciones.Where(i =>
     {
         if (string.IsNullOrEmpty(searchTerm))
             return true;
@@ -27,71 +146,56 @@
                 return i.Clave.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
             case "Caracteristicas":
                 return i.Direccion.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
-            
+            default:
+                return false;
         }
     });
 
     void Guardar()
     {
-        Adscripciones nuevoAdscripcion = new Adscripciones
+        PlantillaEjemplo.Shared.Adscripciones nuevoAdscripcion = new PlantillaEjemplo.Shared.Adscripciones
             {
-                Id = Adscripcion.Count + 1,
+                Id = AdscripcionesService.Adscripciones.Count + 1,
                 Nombre = MiAdscripcion.Nombre,
                 Clave = MiAdscripcion.Clave,
                 Direccion = MiAdscripcion.Direccion,
-                
             };
 
-        Adscripcion.Add(nuevoAdscripcion);
+        AdscripcionesService.AgregarAdscripcion(nuevoAdscripcion);
         // Resetear campos
-        MiAdscripcion = new Adscripciones();
+        MiAdscripcion = new PlantillaEjemplo.Shared.Adscripciones();
     }
 
-    void Editar(Adscripciones MiAdscripcion)
+    void Editar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
     {
-        MiAdscripcionEdit = new Adscripciones
+        MiAdscripcionEdit = new PlantillaEjemplo.Shared.Adscripciones
             {
                 Id = MiAdscripcion.Id,
                 Nombre = MiAdscripcion.Nombre,
-                Marca = MiAdscripcion.Marca,
-                Caracteristicas = MiAdscripcion.Caracteristicas,
-                FechaCompra = MiAdscripcion.FechaCompra,
-                Estatus = MiAdscripcion.Estatus,
-                FechaAdquisicion = MiAdscripcion.FechaAdquisicion,
-                PrecioAdquisicion = MiAdscripcion.PrecioAdquisicion,
-                Cantidad = MiAdscripcion.Cantidad,
-                FechaRegistro = MiAdscripcion.FechaRegistro
+                Clave = MiAdscripcion.Clave,
+                Direccion = MiAdscripcion.Direccion
             };
     }
 
-    void GuardarCambios(Adscripciones MiAdscripcion)
+    void GuardarCambios()
     {
-        var AdscripcionAEliminar = Adscripcion.FirstOrDefault(x => x.Id == MiAdscripcion.Id);
-        if (AdscripcionAEliminar != null)
-        {
-            Adscripcion.Remove(AdscripcionAEliminar);
-            Adscripcion.Add(MiAdscripcionEdit);
-            Adscripcion = Adscripcion.OrderBy(x => x.Id).ToList();
-        }
+        AdscripcionesService.ActualizarAdscripcion(MiAdscripcionEdit);
+        AdscripcionesService.OrdenarAdscripciones();
     }
 
-    void LamadoAEliminar(Adscripciones MiAdscripcion)
+    void LamadoAEliminar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
     {
         MiAdscripcionEdit = MiAdscripcion;
     }
 
-    void Eliminar(Adscripciones MiAdscripcion)
+    void Eliminar(PlantillaEjemplo.Shared.Adscripciones MiAdscripcion)
     {
-        var AdscripcionAEliminar = Adscripcion.FirstOrDefault(x => x.Id == MiAdscripcion.Id);
-        if (AdscripcionAEliminar != null)
-        {
-            Adscripcion.Remove(AdscripcionAEliminar);
-        }
+        AdscripcionesService.EliminarAdscripcion(MiAdscripcion);
     }
 
     void Filtrar()
     {
         // Este método se llama cuando se hace clic en el botón de filtrar
     }
-    
 }
+
